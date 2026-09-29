@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Contact</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+    <div class="auth">
+        <span class="auth-icon">&#128100; Account</span>
+        <div class="auth-menu">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<section class="contact-hero">
+    <h1>Get In Touch</h1>
+    <p>Have a question about BankSphere? We are here to help. Reach out through any of the channels below.</p>
+</section>
+
+{% if messages %}
+<div style="max-width:680px;margin:24px auto 0;padding:0 5%;">
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="contact-container">
+    <div class="contact-info">
+        <h2>Contact Information</h2>
+        <p>We aim to respond to all messages within 24 hours on weekdays. Choose the best way to reach us below.</p>
+        <div class="info-box">
+            <span>📧</span>
+            <div><h4>Email</h4><p>support@banksphere.com</p></div>
+        </div>
+        <div class="info-box">
+            <span>📞</span>
+            <div><h4>Phone</h4><p>+91 98765 43210</p></div>
+        </div>
+        <div class="info-box">
+            <span>📍</span>
+            <div><h4>Location</h4><p>Ahmedabad, Gujarat, India</p></div>
+        </div>
+        <div class="info-box">
+            <span>🕐</span>
+            <div><h4>Response Time</h4><p>Within 24 hours on weekdays</p></div>
+        </div>
+    </div>
+    <div class="contact-form">
+        <h2>Send a Message</h2>
+        <form method="POST" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" name="subject" placeholder="What is this about?" required>
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" placeholder="Write your message here..." required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <span class="footer-logo-text">Bank<span>Sphere</span></span>
+            <p>A modern digital banking platform built for security, transparency and ease of use.</p>
+        </div>
+        <div>
+            <h3>Navigation</h3>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
+        <div>
+            <h3>Reach Us</h3>
+            <a href="#">support@banksphere.com</a>
+            <a href="#">+91 98765 43210</a>
+            <a href="#">Ahmedabad, Gujarat</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 BankSphere. All Rights Reserved.</div>
+</footer>
+
+</body>
+</html>

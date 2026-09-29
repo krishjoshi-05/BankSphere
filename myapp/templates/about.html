@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+    <div class="auth">
+        <span class="auth-icon">&#128100; Account</span>
+        <div class="auth-menu">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+    <h1>About BankSphere</h1>
+    <p>A modern, secure and transparent digital banking platform designed around the needs of every user.</p>
+</section>
+
+<!-- MISSION -->
+<section class="mission-section">
+    <div class="mission-grid">
+        <div class="mission-text">
+            <h2>What We Stand For</h2>
+            <p>BankSphere was built to close the gap between what people need from a banking platform and what most systems actually deliver. We believe banking should be straightforward, transparent and accessible to everyone.</p>
+            <p>Every feature in BankSphere is designed with the end user in mind — from the moment you open your account to every transfer you make. Speed, accuracy and security are not optional extras here; they are the foundation.</p>
+            <p>We are committed to building a platform that grows with its users. Our architecture is modular and scalable, meaning new capabilities can be added without disrupting what already works well.</p>
+        </div>
+        <div class="mission-cards">
+            <div class="mv-card">
+                <span class="mv-icon">🔒</span>
+                <h4>Security First</h4>
+                <p>Every session is protected with role-based access control.</p>
+            </div>
+            <div class="mv-card">
+                <span class="mv-icon">⚡</span>
+                <h4>Real-Time Updates</h4>
+                <p>Balances and records update the instant a transaction occurs.</p>
+            </div>
+            <div class="mv-card">
+                <span class="mv-icon"><i class="fa-solid fa-bullseye"></i></span>
+                <h4>Simple Interface</h4>
+                <p>Clean layouts designed to reduce friction at every step.</p>
+            </div>
+            <div class="mv-card">
+                <span class="mv-icon">📈</span>
+                <h4>Built to Scale</h4>
+                <p>Modular architecture ready to grow with new features.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT CONTENT -->
+<section class="about-content-section">
+    <div style="text-align:center;margin-bottom:50px;">
+        <h2 style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#0b1f3a;margin-bottom:10px;">Our Platform, In Detail</h2>
+        <p style="color:#5f758f;font-size:15px;max-width:520px;margin:0 auto;">Everything you need to understand about how BankSphere works and what it stands for.</p>
+    </div>
+    <div class="about-content-inner">
+        <div class="content-block">
+            <p>BankSphere is a full-featured Bank Management System that covers the complete range of everyday banking operations. From opening an account and checking your balance to sending funds and downloading statements — every core banking need is handled in one place.</p>
+        </div>
+        <div class="content-block">
+            <p>Security is not an afterthought at BankSphere. Access to every part of the system is governed by session-based authentication and strict role assignments. Regular users can only see and manage their own data. Administrators operate within a separate panel with elevated permissions, and every admin action is logged and visible.</p>
+        </div>
+        <div class="content-block">
+            <p>Transparency is central to how BankSphere operates. Every transaction is recorded in full — with a date, time, type, amount and status. Users can view their complete history at any point and export it as a PDF statement, giving them a permanent record of all their financial activity on the platform.</p>
+        </div>
+        <div class="content-block">
+            <p>The fund transfer system is built for accuracy and speed. When you initiate a transfer, the sender's balance is debited and the receiver's balance is credited instantly. There are no processing delays, no hidden steps. Both parties can see the updated balance the moment the transaction is confirmed.</p>
+        </div>
+        <div class="content-block">
+            <p>BankSphere's admin dashboard gives platform managers full visibility over user accounts and transaction activity. Administrators can view all registered accounts, monitor transaction volumes, flag unusual activity and manage user access — all without needing direct database access.</p>
+        </div>
+        <div class="content-block">
+            <p>The platform has been designed with future growth in mind. Its modular structure means new features — such as loan management, investment tracking or detailed analytics dashboards — can be introduced without disrupting the existing system. BankSphere is a foundation, not a ceiling.</p>
+        </div>
+    </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+    <h2 class="section-title">Our Core Principles</h2>
+    <p class="section-subtitle">The values that shape every decision we make in building and running BankSphere.</p>
+    <div class="values-grid">
+        <div class="value-card">
+            <span class="value-icon"><i class="fa-solid fa-shield-halved"></i></span>
+            <h3>Security</h3>
+            <p>Role-based access and session control ensure only authorised users can perform actions within their permitted scope.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon"><i class="fa-solid fa-bullseye"></i></span>
+            <h3>Simplicity</h3>
+            <p>Every screen is designed to be immediately usable. No unnecessary steps, no confusing layouts — just clear banking.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">📐</span>
+            <h3>Accuracy</h3>
+            <p>Balances, transaction records and user data are handled with precision at every point in the system.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">🔍</span>
+            <h3>Transparency</h3>
+            <p>Full transaction histories and admin oversight tools mean nothing is hidden from the people who need to see it.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">🧩</span>
+            <h3>Modularity</h3>
+            <p>Each part of the platform operates independently, making it easy to maintain, update and extend over time.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">🚀</span>
+            <h3>Scalability</h3>
+            <p>BankSphere is architected to grow. New features and increased user loads can be accommodated without rebuilding from scratch.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section">
+    <h2 class="section-title">What BankSphere Provides</h2>
+    <p class="section-subtitle">A breakdown of the core services available to every registered user.</p>
+    <div class="services-grid">
+        <div class="service-card">
+            <span class="service-icon"><i class="fa-solid fa-building-columns"></i></span>
+            <div>
+                <h3>Personal Banking Account</h3>
+                <p>Every user receives a unique account number on registration and an opening balance. Your account is your identity on the platform — manage it, monitor it and keep it secure.</p>
+            </div>
+        </div>
+        <div class="service-card">
+            <span class="service-icon"><i class="fa-solid fa-paper-plane"></i></span>
+            <div>
+                <h3>Instant Fund Transfers</h3>
+                <p>Send money to any registered BankSphere account instantly. Enter the account number, set the amount, add a note if needed, and the funds move in real time.</p>
+            </div>
+        </div>
+        <div class="service-card">
+            <span class="service-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+            <div>
+                <h3>Full Transaction History</h3>
+                <p>A complete log of every credit and debit is stored against your account. Filter, browse and review your financial activity at any time from your dashboard.</p>
+            </div>
+        </div>
+        <div class="service-card">
+            <span class="service-icon"><i class="fa-solid fa-file-pdf"></i></span>
+            <div>
+                <h3>PDF Statement Export</h3>
+                <p>Download a formatted PDF statement of your transaction history at any time. Useful for personal records, reconciliation or any situation where you need a printed financial summary.</p>
+            </div>
+        </div>
+        <div class="service-card">
+            <span class="service-icon"><i class="fa-solid fa-user-circle"></i></span>
+            <div>
+                <h3>Profile Management</h3>
+                <p>Update your personal details, change your password and keep your account information accurate and current — all from the profile section of your dashboard.</p>
+            </div>
+        </div>
+        <div class="service-card">
+            <span class="service-icon">⚙️</span>
+            <div>
+                <h3>Admin Control Panel</h3>
+                <p>Administrators have access to a dedicated panel for managing users, reviewing all platform transactions and flagging any activity that requires attention.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMMITMENT -->
+<section class="commitment-section">
+    <h2>Our Commitment to You</h2>
+    <p>BankSphere is built on a simple promise: your financial data will always be accurate, your account will always be secure, and the platform will always give you the visibility you need to stay in control of your money.</p>
+    <p>We are continuously working to improve every part of the experience — from the speed of transactions to the clarity of the interface. Your trust is the measure of everything we do.</p>
+    <div class="commit-grid">
+        <div class="commit-item">
+            <span class="ci-num">100%</span>
+            <p>Accurate transaction records on every operation</p>
+        </div>
+        <div class="commit-item">
+            <span class="ci-num">24/7</span>
+            <p>Platform availability with no scheduled downtime</p>
+        </div>
+        <div class="commit-item">
+            <span class="ci-num">0</span>
+            <p>Hidden charges on any transfer or withdrawal</p>
+        </div>
+        <div class="commit-item">
+            <span class="ci-num">∞</span>
+            <p>Transaction history stored indefinitely for your records</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <span class="footer-logo-text">Bank<span>Sphere</span></span>
+            <p>A modern digital banking platform built for security, transparency and ease of use.</p>
+        </div>
+        <div>
+            <h3>Navigation</h3>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <a href="{% url 'contact' %}">Send a Message</a>
+            <a href="#">support@banksphere.com</a>
+            <a href="#">+91 98765 43210</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 BankSphere. All Rights Reserved.</div>
+</footer>
+
+</body>
+</html>

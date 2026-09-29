@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Fund Transfer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fund_transfer.css' %}">
+    <style>
+    .tip-item{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:14px;color:#5f758f;}
+    .tip-item i{color:#e8a838;}
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'transaction_history' %}">Transactions</a></li>
+    </ul>
+    <div class="user-auth">
+        <span class="user-icon" id="userToggle">
+            <i class="fa-solid fa-circle-user"></i> {{ user.fullname }} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="user-menu" id="userMenu">
+            <a href="{% url 'profile' %}"><i class="fa-solid fa-id-card"></i> My Profile</a>
+            <a href="{% url 'change_password' %}"><i class="fa-solid fa-key"></i> Change Password</a>
+            <a href="{% url 'logout' %}" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </div>
+</nav>
+<div class="page-title"><h1>Fund Transfer</h1><p>Send money securely to any BankSphere account</p></div>
+{% if messages %}
+<div style="max-width:580px;margin:0 auto;padding:0 10%;">
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}" style="display:flex;align-items:center;gap:8px;">
+        <i class="fa-solid {% if message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<section class="transfer-section">
+    <div class="form-wrapper">
+        <div class="balance-bar">
+            <p><i class="fa-solid fa-wallet" style="margin-right:6px;color:#2ecc9a;"></i>Available Balance: <span>&#8377;{{ user.balance }}</span></p>
+            <small><i class="fa-solid fa-hashtag" style="margin-right:4px;"></i>Account: {{ user.account_number }}</small>
+        </div>
+        <form method="POST" action="{% url 'fund_transfer' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label><i class="fa-solid fa-hashtag"></i> Receiver Account Number</label>
+                <input type="text" name="account" placeholder="Enter receiver's account number" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-indian-rupee-sign"></i> Amount (&#8377;)</label>
+                <input type="number" name="amount" placeholder="Enter amount" min="1" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-comment-dots"></i> Remarks (Optional)</label>
+                <textarea name="details" placeholder="Purpose of transfer..."></textarea>
+            </div>
+            <button type="submit" class="transfer-btn"><i class="fa-solid fa-paper-plane"></i> Transfer Funds</button>
+        </form>
+        <div class="tips-section">
+            <h4><i class="fa-solid fa-triangle-exclamation" style="color:#e8a838;margin-right:6px;"></i>Important</h4>
+            <div class="tip-item"><i class="fa-solid fa-magnifying-glass"></i> Double-check the receiver account number before submitting.</div>
+            <div class="tip-item"><i class="fa-solid fa-bolt"></i> Transfers are instant and cannot be reversed once confirmed.</div>
+        </div>
+    </div>
+</section>
+<footer class="footer">© 2026 BankSphere. All Rights Reserved.</footer>
+<script>
+const userToggle = document.getElementById('userToggle');
+const userMenu   = document.getElementById('userMenu');
+userToggle.addEventListener('click', function(e) { e.stopPropagation(); userMenu.classList.toggle('open'); });
+document.addEventListener('click', function() { userMenu.classList.remove('open'); });
+userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+</script>
+</body>
+</html>

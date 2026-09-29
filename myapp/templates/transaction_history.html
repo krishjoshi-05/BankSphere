@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Transaction History</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/transaction_history.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'fund_transfer' %}">Transfer</a></li>
+    </ul>
+    <div class="user-auth">
+        <span class="user-icon" id="userToggle">
+            <i class="fa-solid fa-circle-user"></i> {{ user.fullname }} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="user-menu" id="userMenu">
+            <a href="{% url 'profile' %}"><i class="fa-solid fa-id-card"></i> My Profile</a>
+            <a href="{% url 'change_password' %}"><i class="fa-solid fa-key"></i> Change Password</a>
+            <a href="{% url 'logout' %}" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </div>
+</nav>
+<div class="page-title"><h1>Transaction History</h1><p>Complete record of all your BankSphere transactions</p></div>
+<div class="table-wrapper">
+    <div class="table-actions">
+        <a href="javascript:void(0)" onclick="downloadPDF()">
+            <button class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> Download PDF Statement</button>
+        </a>
+    </div>
+    <table class="transaction-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date &amp; Time</th>
+                <th>Type</th>
+                <th>Details</th>
+                <th>Amount (&#8377;)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in transactions %}
+            <tr>
+                <td style="color:#a0aec0;font-size:13px;">{{ forloop.counter }}</td>
+                <td>{{ tx.date|date:"d M Y, H:i" }}</td>
+                <td>
+                    {% if tx.transaction_type == 'Credit' %}
+                        <span class="badge-credit"><i class="fa-solid fa-arrow-down"></i> Credit</span>
+                    {% else %}
+                        <span class="badge-debit"><i class="fa-solid fa-arrow-up"></i> Debit</span>
+                    {% endif %}
+                </td>
+                <td>{{ tx.details }}</td>
+                <td style="font-weight:600;{% if tx.transaction_type == 'Credit' %}color:#16a34a;{% else %}color:#dc2626;{% endif %}">
+                    {% if tx.transaction_type == 'Credit' %}+{% else %}-{% endif %}&#8377;{{ tx.amount }}
+                </td>
+                <td>{{ tx.status }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" style="text-align:center;color:#a0aec0;padding:32px;">No transactions found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<footer class="footer">© 2026 BankSphere. All Rights Reserved.</footer>
+<script>
+const userToggle = document.getElementById('userToggle');
+const userMenu   = document.getElementById('userMenu');
+userToggle.addEventListener('click', function(e) { e.stopPropagation(); userMenu.classList.toggle('open'); });
+document.addEventListener('click', function() { userMenu.classList.remove('open'); });
+userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+</script>
+
+<script>
+function downloadPDF() {
+    var now = new Date();
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var h = now.getHours(); var ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    var pad = n => n < 10 ? "0"+n : n;
+    var ts = pad(now.getDate())+"-"+months[now.getMonth()]+"-"+now.getFullYear()+" "+pad(h)+":"+pad(now.getMinutes())+" "+ampm;
+    window.location.href = "/download_statement/?ts=" + encodeURIComponent(ts);
+}
+</script>
+</body>
+</html>

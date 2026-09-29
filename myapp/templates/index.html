@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Banking Beyond Boundaries</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+    <div class="auth">
+        <span class="auth-icon" id="authToggle">
+            <i class="fa-regular fa-user"></i> Account <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="auth-menu" id="authMenu">
+            <a href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            <a href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Banking Beyond<br><span class="hl">Boundaries.</span></h1>
+    <p>BankSphere gives you complete control over your finances — from secure account management and instant fund transfers to detailed transaction records, all in one place.</p>
+    <div class="hero-btns">
+        <a href="{% url 'signup' %}" class="hbtn hbtn-solid">Open an Account</a>
+        <a href="{% url 'login' %}"  class="hbtn hbtn-outline">Sign In</a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" style="background:#fff;">
+    <h2 class="section-title">Everything You Need to Bank Better</h2>
+    <p class="section-subtitle">A complete set of tools built around security, speed and simplicity.</p>
+    <div class="features">
+        <div class="feature-card">
+            <span class="feature-icon"><i class="fa-solid fa-building-columns"></i></span>
+            <h3>Account Management</h3>
+            <p>Open and manage your account with full transparency. Your balance updates instantly with every activity.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon"><i class="fa-solid fa-paper-plane"></i></span>
+            <h3>Fund Transfer</h3>
+            <p>Send money to any BankSphere account in seconds. Fast, accurate and confirmed on every transfer.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+            <h3>Transaction Records</h3>
+            <p>View your complete transaction history and download detailed PDF statements whenever you need them.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon"><i class="fa-solid fa-shield-halved"></i></span>
+            <h3>Secure Access</h3>
+            <p>Role-based login ensures your account is protected. Admins and users each have separate secure portals.</p>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:#f4f7fb;">
+    <h2 class="section-title">Up and Running in Minutes</h2>
+    <p class="section-subtitle">Getting started with BankSphere takes just three simple steps.</p>
+    <div class="steps-grid">
+        <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Create Your Account</h3>
+            <p>Fill in your details and register. A unique account number is automatically issued to you the moment you sign up.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Access Your Dashboard</h3>
+            <p>Log in to see your balance, recent activity and all your account tools organised in one clean dashboard.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Start Transacting</h3>
+            <p>Transfer funds, download statements and manage your profile — securely and entirely online.</p>
+        </div>
+    </div>
+</section>
+
+<!-- WHY BANKSPHERE -->
+<section class="section why-section">
+    <div class="why-grid">
+        <div class="why-text">
+            <h2>Built for Reliability and Transparency</h2>
+            <p>BankSphere is designed around the idea that banking should be straightforward. Every feature is built to give you clarity over your money without unnecessary complexity.</p>
+            <p>Whether you are a customer managing day-to-day transactions or an administrator overseeing the platform, BankSphere keeps everything visible, accurate and under control.</p>
+            <ul class="why-list">
+                <li>Role-based authentication for users and admins</li>
+                <li>Automatic account number assigned at signup</li>
+                <li>Live balance update on every transaction</li>
+                <li>PDF statement export at any time</li>
+                <li>Admin tools to monitor and flag transactions</li>
+                <li>Clean, responsive layout on all screen sizes</li>
+            </ul>
+        </div>
+        <div class="why-visual">
+            <div class="why-visual-title">Why BankSphere?</div>
+            <p>What makes us different</p>
+            <ul class="benefit-list">
+                <li><i class="fa-solid fa-bolt"></i> Instant fund transfers with zero delay</li>
+                <li><i class="fa-solid fa-eye"></i> Complete transaction transparency</li>
+                <li><i class="fa-solid fa-user-shield"></i> Dedicated admin monitoring panel</li>
+                <li><i class="fa-solid fa-file-pdf"></i> Downloadable financial statements</li>
+                <li><i class="fa-solid fa-lock"></i> Secure session-based login system</li>
+                <li><i class="fa-solid fa-star"></i> Clean interface, zero clutter</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready to Get Started?</h2>
+    <p>Open your BankSphere account today and experience banking the way it should be — simple, secure and transparent.</p>
+    <div class="cta-btns">
+        <a href="{% url 'signup' %}" class="cbtn cbtn-fill">Create Account</a>
+        <a href="{% url 'login' %}"  class="cbtn cbtn-ghost">Sign In</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <span class="footer-logo-text">Bank<span>Sphere</span></span>
+            <p>A modern digital banking platform offering secure account management, instant fund transfers and complete financial record keeping.</p>
+        </div>
+        <div>
+            <h3>Navigation</h3>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </div>
+        <div>
+            <h3>Platform</h3>
+            <a href="#">Encrypted Transactions</a>
+            <a href="#">Role-Based Access</a>
+            <a href="#">PDF Statements</a>
+            <a href="#">Admin Monitoring</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 BankSphere. All Rights Reserved.</div>
+</footer>
+
+<script>
+// Click-based dropdown (fixes hover disappear bug)
+const authToggle = document.getElementById('authToggle');
+const authMenu   = document.getElementById('authMenu');
+if (authToggle && authMenu) {
+    authToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        authMenu.classList.toggle('open');
+    });
+    document.addEventListener('click', function() {
+        authMenu.classList.remove('open');
+    });
+    authMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+}
+</script>
+</body>
+</html>

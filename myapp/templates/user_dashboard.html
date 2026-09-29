@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+    <div class="user-auth">
+        <span class="user-icon" id="userToggle">
+            <i class="fa-solid fa-circle-user"></i> {{ user.fullname }} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="user-menu" id="userMenu">
+            <a href="{% url 'profile' %}"><i class="fa-solid fa-id-card"></i> My Profile</a>
+            <a href="{% url 'change_password' %}"><i class="fa-solid fa-key"></i> Change Password</a>
+            <a href="{% url 'logout' %}" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </div>
+</nav>
+
+{% if messages %}
+<div style="padding:14px 56px 0;">
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="page-title">
+    <h1>Welcome, {{ user.fullname }}</h1>
+    <p>Here is an overview of your account activity.</p>
+</div>
+
+<section class="dashboard-section">
+    <div class="dashboard-wrapper">
+
+        <div class="welcome-notes">
+            <div>
+                <p class="acc-label">Account Number</p>
+                <p class="acc-num">{{ user.account_number }}</p>
+            </div>
+            <div class="welcome-right">
+                <div class="info-pill"><i class="fa-solid fa-piggy-bank"></i> Account Type: Savings</div>
+                <div class="info-pill {% if user.is_active %}pill-active{% else %}pill-inactive{% endif %}">
+                    <i class="fa-solid {% if user.is_active %}fa-circle-check{% else %}fa-circle-xmark{% endif %}"></i>
+                    Status: {% if user.is_active %}Active{% else %}Inactive{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="cards-wrapper">
+            <div class="card">
+                <div class="card-label"><i class="fa-solid fa-wallet"></i> Account Type</div>
+                <div class="card-val">Savings</div>
+                <div class="card-sub">Personal account</div>
+            </div>
+            <div class="card">
+                <div class="card-label"><i class="fa-solid fa-hashtag"></i> Account Number</div>
+                <div class="card-val card-val-sm">{{ user.account_number }}</div>
+                <div class="card-sub">Your unique ID</div>
+            </div>
+            <div class="card card-green">
+                <div class="card-label"><i class="fa-solid fa-indian-rupee-sign"></i> Available Balance</div>
+                <div class="card-val">&#8377;{{ user.balance }}</div>
+                <div class="card-sub">Current balance</div>
+            </div>
+            <div class="card card-teal">
+                <div class="card-label"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</div>
+                <div class="card-val">{{ transactions|length }}</div>
+                <div class="card-sub">transactions shown</div>
+            </div>
+        </div>
+
+        <div class="transactions-section">
+            <h2><i class="fa-solid fa-list-ul" style="margin-right:8px;"></i>Recent Transactions</h2>
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Date &amp; Time</th>
+                        <th>Type</th>
+                        <th>Details</th>
+                        <th>Amount (&#8377;)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in transactions %}
+                    <tr>
+                        <td>{{ tx.date|date:"d M Y, H:i" }}</td>
+                        <td>
+                            {% if tx.transaction_type == 'Credit' %}
+                                <span class="badge-credit"><i class="fa-solid fa-arrow-down"></i> Credit</span>
+                            {% else %}
+                                <span class="badge-debit"><i class="fa-solid fa-arrow-up"></i> Debit</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ tx.details }}</td>
+                        <td class="amount-cell {% if tx.transaction_type == 'Credit' %}amount-credit{% else %}amount-debit{% endif %}">
+                            {% if tx.transaction_type == 'Credit' %}+{% else %}-{% endif %}&#8377;{{ tx.amount }}
+                        </td>
+                        <td><span class="badge-complete">{{ tx.status }}</span></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty-row">No transactions yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions-wrapper">
+            <a href="{% url 'fund_transfer' %}"      class="action-btn"><i class="fa-solid fa-paper-plane"></i> Transfer Funds</a>
+            <a href="{% url 'transaction_history' %}" class="action-btn"><i class="fa-solid fa-clock-rotate-left"></i> All Transactions</a>
+            <a href="javascript:void(0)" onclick="downloadPDF()"  class="action-btn"><i class="fa-solid fa-file-pdf"></i> Download PDF</a>
+            <a href="{% url 'profile' %}"             class="action-btn action-btn-outline"><i class="fa-solid fa-id-card"></i> My Profile</a>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">© 2026 BankSphere. All Rights Reserved.</footer>
+
+<script>
+const userToggle = document.getElementById('userToggle');
+const userMenu   = document.getElementById('userMenu');
+userToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    userMenu.classList.toggle('open');
+});
+document.addEventListener('click', function() { userMenu.classList.remove('open'); });
+userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+</script>
+
+<script>
+function downloadPDF() {
+    var now = new Date();
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var h = now.getHours(); var ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    var pad = n => n < 10 ? "0"+n : n;
+    var ts = pad(now.getDate())+"-"+months[now.getMonth()]+"-"+now.getFullYear()+" "+pad(h)+":"+pad(now.getMinutes())+" "+ampm;
+    window.location.href = "/download_statement/?ts=" + encodeURIComponent(ts);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter','Segoe UI',sans-serif;background:#f4f7fb;color:#1a2840;}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:0 56px;height:68px;background:#0b1f3a;position:sticky;top:0;z-index:999;box-shadow:0 2px 24px rgba(11,31,58,.32);}
+.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;text-decoration:none;}.logo span{color:#2ecc9a;}
+.nav-links{display:flex;list-style:none;gap:2px;}.nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;font-weight:500;padding:7px 16px;border-radius:8px;transition:.28s;}.nav-links a:hover{color:#fff;background:rgba(255,255,255,.1);}
+.user-auth{position:relative;}.user-icon{font-size:22px;cursor:pointer;color:#e8a838;transition:.28s;}.user-auth:hover .user-icon{transform:scale(1.15) rotate(5deg);}
+.user-menu{position:absolute;top:42px;right:0;background:#fff;border-radius:14px;box-shadow:0 14px 50px rgba(11,31,58,.16);display:none;min-width:168px;border:1px solid #dde5f0;overflow:hidden;}
+.user-menu a{display:block;padding:12px 18px;color:#1a2840;text-decoration:none;font-size:14px;font-weight:500;transition:.28s;border-bottom:1px solid #dde5f0;}.user-menu a:last-child{border-bottom:none;}.user-menu a:hover{background:#f4f7fb;color:#0b1f3a;padding-left:24px;}
+.user-auth:hover .user-menu{display:block;}
+.page-title{text-align:center;padding:52px 10% 28px;}.page-title h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#0b1f3a;margin-bottom:8px;}.page-title p{font-size:15px;color:#5f758f;}
+.alert{padding:13px 18px;margin-bottom:10px;border-radius:10px;font-size:14px;font-weight:500;}
+.alert-error{background:#fef2f2;color:#dc2626;border-left:4px solid #dc2626;}.alert-success{background:#f0fdf4;color:#16a34a;border-left:4px solid #16a34a;}
+.footer{text-align:center;padding:22px;background:#0b1f3a;color:rgba(255,255,255,.45);font-size:13px;}
+
+.table-wrapper{width:90%;max-width:1060px;margin:0 auto 64px;}
+.table-actions{display:flex;justify-content:flex-end;margin-bottom:14px;}
+.transaction-table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 28px rgba(11,31,58,.09);}
+.transaction-table th,.transaction-table td{padding:14px 16px;text-align:left;}
+.transaction-table thead{background:#0b1f3a;color:#fff;}
+.transaction-table th{font-size:13px;font-weight:600;letter-spacing:.3px;}
+.transaction-table tbody tr{transition:background .2s ease;}
+.transaction-table tbody tr:hover{background:#f4f7fb;}
+.transaction-table td{font-size:14px;border-bottom:1px solid #f0f4f8;}
+.badge-credit{background:#f0fdf4;color:#16a34a;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.badge-debit {background:#fef2f2;color:#dc2626;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.pdf-btn{padding:11px 24px;background:#0b1f3a;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all .28s ease;font-family:'Inter',sans-serif;}
+.pdf-btn:hover{background:#2ecc9a;color:#0b1f3a;transform:translateY(-2px);box-shadow:0 6px 18px rgba(46,204,154,.32);}

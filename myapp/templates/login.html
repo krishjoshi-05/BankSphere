@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+    <div class="auth">
+        <span class="auth-icon" id="authToggle">
+            <i class="fa-regular fa-user"></i> Account <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="auth-menu" id="authMenu">
+            <a href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            <a href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<section class="page-title">
+    <h1>Welcome Back</h1>
+    <p>Select your role and sign in to access your account</p>
+</section>
+
+{% if messages %}
+<div class="messages-wrapper">
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+        <i class="fa-solid {% if message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<section class="login-section">
+    <div class="login-card-single">
+
+        <div class="role-toggle">
+            <button type="button" class="role-btn active" id="btn-user"  onclick="switchRole('user')">
+                <i class="fa-solid fa-user"></i> User
+            </button>
+            <button type="button" class="role-btn"        id="btn-admin" onclick="switchRole('admin')">
+                <i class="fa-solid fa-shield-halved"></i> Admin
+            </button>
+        </div>
+        <div class="role-label">Signing in as <span id="role-display">User</span></div>
+
+        <!-- USER FORM -->
+        <form method="POST" action="{% url 'login' %}" id="user-form">
+            {% csrf_token %}
+            <input type="hidden" name="login_role" value="user">
+            <div class="form-group">
+                <label><i class="fa-solid fa-at"></i> Username</label>
+                <input type="text" name="username" placeholder="Enter your username" autocomplete="username" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-lock"></i> Password</label>
+                <div class="pw-wrap">
+                    <input type="password" name="password" id="userPw" placeholder="Enter your password" autocomplete="current-password" required>
+                    <span class="pw-eye" onclick="togglePw('userPw', this)"><i class="fa-regular fa-eye"></i></span>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <p class="signup-link">Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+                <button type="submit" class="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>
+            </div>
+        </form>
+
+        <!-- ADMIN FORM -->
+        <form method="POST" action="{% url 'login' %}" id="admin-form" style="display:none;">
+            {% csrf_token %}
+            <input type="hidden" name="login_role" value="admin">
+            <div class="form-group">
+                <label><i class="fa-solid fa-user-shield"></i> Admin Username</label>
+                <input type="text" name="admin_username" placeholder="Enter admin username" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-lock"></i> Admin Password</label>
+                <div class="pw-wrap">
+                    <input type="password" name="admin_password" id="adminPw" placeholder="Enter admin password" required>
+                    <span class="pw-eye" onclick="togglePw('adminPw', this)"><i class="fa-regular fa-eye"></i></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-key"></i> Admin Secret Key <span class="key-hint">Required for admin access</span></label>
+                <div class="pw-wrap">
+                    <input type="password" name="admin_key" id="adminKey" placeholder="Enter admin secret key" required>
+                    <span class="pw-eye" onclick="togglePw('adminKey', this)"><i class="fa-regular fa-eye"></i></span>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <button type="submit" class="login-btn login-btn-admin"><i class="fa-solid fa-shield-halved"></i> Sign In as Admin</button>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+<footer class="footer">© 2026 BankSphere. All Rights Reserved.</footer>
+
+<script>
+    // Click-based dropdown
+    const authToggle = document.getElementById('authToggle');
+    const authMenu   = document.getElementById('authMenu');
+    if (authToggle && authMenu) {
+        authToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            authMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function() { authMenu.classList.remove('open'); });
+        authMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+    }
+
+    // Role switching
+    function switchRole(role) {
+        const isAdmin = role === 'admin';
+        document.getElementById('btn-admin').classList.toggle('active',  isAdmin);
+        document.getElementById('btn-user').classList.toggle('active',  !isAdmin);
+        document.getElementById('user-form').style.display  = isAdmin ? 'none'  : 'block';
+        document.getElementById('admin-form').style.display = isAdmin ? 'block' : 'none';
+        document.getElementById('role-display').textContent = isAdmin ? 'Admin' : 'User';
+    }
+
+    // Password eye toggle
+    function togglePw(id, el) {
+        const input = document.getElementById(id);
+        const isText = input.type === 'text';
+        input.type = isText ? 'password' : 'text';
+        el.innerHTML = isText ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
+    }
+</script>
+</body>
+</html>

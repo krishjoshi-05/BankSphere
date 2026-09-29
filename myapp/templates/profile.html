@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/change_password.css' %}">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'fund_transfer' %}">Transfer</a></li>
+        <li><a href="{% url 'transaction_history' %}">Transactions</a></li>
+    </ul>
+    <div class="user-auth">
+        <span class="user-icon" id="userToggle">
+            <i class="fa-solid fa-circle-user"></i> {{ user.fullname }} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="user-menu" id="userMenu">
+            <a href="{% url 'profile' %}"><i class="fa-solid fa-id-card"></i> Profile</a>
+            <a href="{% url 'change_password' %}"><i class="fa-solid fa-key"></i> Change Password</a>
+            <a href="{% url 'logout' %}" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </div>
+</nav>
+
+<section class="page-title">
+    <h1>My Profile</h1>
+    <p>Your BankSphere account information</p>
+</section>
+
+<section class="password-section">
+    <div class="form-wrapper">
+        <table style="width:100%;border-collapse:collapse;font-size:15px;">
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;width:40%;display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-user" style="color:#2ecc9a;"></i> Full Name</td><td>{{ user.fullname }}</td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-at" style="color:#2ecc9a;"></i> Username</td><td>{{ user.username }}</td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-envelope" style="color:#2ecc9a;"></i> Email</td><td>{{ user.email }}</td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-phone" style="color:#2ecc9a;"></i> Phone</td><td>{{ user.phone }}</td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-cake-candles" style="color:#2ecc9a;"></i> Date of Birth</td><td>{{ user.dob }}</td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-location-dot" style="color:#2ecc9a;"></i> Address</td><td>{{ user.address }}</td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-hashtag" style="color:#2ecc9a;"></i> Account Number</td><td><strong>{{ user.account_number }}</strong></td></tr>
+            <tr style="border-bottom:1px solid #eee;"><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-indian-rupee-sign" style="color:#2ecc9a;"></i> Balance</td><td><strong>&#8377;{{ user.balance }}</strong></td></tr>
+            <tr><td style="padding:13px 0;color:#0a2e5c;font-weight:600;"><i class="fa-solid fa-circle-info" style="color:#2ecc9a;"></i> Status</td><td>
+                {% if user.is_active %}
+                    <span style="color:#1a7a3c;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-circle-check"></i> Active</span>
+                {% else %}
+                    <span style="color:#c0392b;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-circle-xmark"></i> Inactive</span>
+                {% endif %}
+            </td></tr>
+        </table>
+        <div style="margin-top:25px;display:flex;gap:15px;">
+            <a href="{% url 'dashboard' %}"><button class="update-btn" style="background:#143d6b;"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button></a>
+            <a href="{% url 'change_password' %}"><button class="update-btn"><i class="fa-solid fa-key"></i> Change Password</button></a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer"><p>© 2026 BankSphere. All Rights Reserved.</p></footer>
+<script>
+const userToggle = document.getElementById('userToggle');
+const userMenu   = document.getElementById('userMenu');
+userToggle.addEventListener('click', function(e) { e.stopPropagation(); userMenu.classList.toggle('open'); });
+document.addEventListener('click', function() { userMenu.classList.remove('open'); });
+userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankSphere | Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <style>
+        .navbar { display:flex; justify-content:space-between; align-items:center; padding:0 48px; height:68px; background:#0b1f3a; position:sticky; top:0; z-index:999; box-shadow:0 2px 24px rgba(11,31,58,.32); }
+        .logo { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:#fff; text-decoration:none; } .logo span{color:#2ecc9a;}
+        .nav-links{display:flex;list-style:none;gap:2px;}
+        .nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;font-weight:500;padding:7px 16px;border-radius:8px;transition:.25s ease;display:flex;align-items:center;gap:6px;}
+        .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08);}
+        .user-auth{position:relative;}
+        .user-icon{cursor:pointer;color:rgba(255,255,255,.82);font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;gap:7px;transition:.25s ease;}
+        .user-icon i{color:#2ecc9a;}
+        .user-icon:hover{background:rgba(255,255,255,.1);color:#fff;}
+        .user-menu{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border-radius:12px;box-shadow:0 14px 50px rgba(11,31,58,.18);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:opacity .22s,transform .22s,visibility .22s;min-width:178px;border:1px solid #dde5f0;overflow:hidden;z-index:1000;}
+        .user-menu.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);}
+        .user-menu a{display:flex;align-items:center;gap:9px;padding:12px 18px;color:#1a2840;text-decoration:none;font-size:14px;font-weight:500;border-bottom:1px solid #dde5f0;transition:.25s ease;}
+        .user-menu a i{font-size:13px;color:#5f758f;width:16px;}
+        .user-menu a:last-child{border-bottom:none;}
+        .user-menu a.logout-link{color:#dc2626;} .user-menu a.logout-link i{color:#dc2626;}
+        .user-menu a:hover{background:#f4f7fb;padding-left:22px;}
+        .alert-bar{display:flex;align-items:center;gap:10px;background:#fff3cd;border-left:4px solid #e8a838;border-radius:8px;padding:12px 18px;margin-bottom:10px;font-size:14px;color:#856404;}
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">Bank<span>Sphere</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'admin_dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li><a href="{% url 'admin_user_management' %}"><i class="fa-solid fa-users"></i> Users</a></li>
+        <li><a href="{% url 'admin_transaction_monitoring' %}"><i class="fa-solid fa-chart-line"></i> Transactions</a></li>
+    </ul>
+    <div class="user-auth">
+        <span class="user-icon" id="userToggle">
+            <i class="fa-solid fa-shield-halved"></i> Admin <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </span>
+        <div class="user-menu" id="userMenu">
+            <a href="javascript:void(0)" onclick="adminDownloadPDF('{% url 'admin_pdf_all' %}')"><i class="fa-solid fa-file-pdf"></i> Download Report</a>
+            <a href="{% url 'logout' %}" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </div>
+</nav>
+
+<section class="page-title">
+    <h1>Welcome, Admin!</h1>
+    <p>Monitor and manage the BankSphere system securely</p>
+</section>
+
+{% if messages %}
+<div style="width:90%;max-width:1100px;margin:0 auto 20px;">
+    {% for message in messages %}
+    <div style="padding:12px 18px;border-radius:8px;
+        background:{% if message.tags == 'error' %}#fdecea{% else %}#e6f4ea{% endif %};
+        color:{% if message.tags == 'error' %}#c0392b{% else %}#1e7e34{% endif %};
+        border-left:5px solid {% if message.tags == 'error' %}#c0392b{% else %}#1e7e34{% endif %};display:flex;align-items:center;gap:8px;">
+        <i class="fa-solid {% if message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<section class="dashboard-section">
+    <div class="dashboard-wrapper">
+
+        <div class="alerts-section">
+            <div class="alert-bar"><i class="fa-solid fa-users"></i> Total Registered Users: <strong>{{ total_users }}</strong></div>
+            <div class="alert-bar" style="background:#fdecea;border-color:#c0392b;color:#7b1a1a;"><i class="fa-solid fa-flag"></i> Flagged Transactions: <strong>{{ flagged_count }}</strong></div>
+        </div>
+
+        <div class="cards-wrapper">
+            <div class="card interactive-card">
+                <h3><i class="fa-solid fa-users" style="color:#2ecc9a;margin-right:6px;"></i>Total Users</h3>
+                <p>{{ total_users }}</p>
+            </div>
+            <div class="card interactive-card">
+                <h3><i class="fa-solid fa-arrows-rotate" style="color:#2ecc9a;margin-right:6px;"></i>Total Transactions</h3>
+                <p>{{ total_tx }}</p>
+            </div>
+            <div class="card interactive-card">
+                <h3><i class="fa-solid fa-flag" style="color:#e8a838;margin-right:6px;"></i>Flagged</h3>
+                <p>{{ flagged_count }}</p>
+            </div>
+            <div class="card interactive-card">
+                <h3><i class="fa-solid fa-indian-rupee-sign" style="color:#2ecc9a;margin-right:6px;"></i>Total Funds</h3>
+                <p>&#8377;{{ total_funds }}</p>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <h2><i class="fa-solid fa-clock-rotate-left" style="margin-right:8px;"></i>Recent Transactions</h2>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Account</th>
+                        <th>Type</th>
+                        <th>Amount (&#8377;)</th>
+                        <th>Status</th>
+                        <th>Flagged</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in recent_tx %}
+                    <tr>
+                        <td>{{ tx.date|date:"d-M-Y H:i" }}</td>
+                        <td>{{ tx.user.fullname }}</td>
+                        <td>{{ tx.user.account_number }}</td>
+                        <td style="color:{% if tx.transaction_type == 'Credit' %}#1a7a3c{% else %}#c0392b{% endif %};font-weight:600;">
+                            <i class="fa-solid {% if tx.transaction_type == 'Credit' %}fa-arrow-down{% else %}fa-arrow-up{% endif %}"></i>
+                            {{ tx.transaction_type }}
+                        </td>
+                        <td>{{ tx.amount }}</td>
+                        <td>{{ tx.status }}</td>
+                        <td>{% if tx.flagged %}<span style="color:#c0392b;font-weight:bold;"><i class="fa-solid fa-flag"></i> Yes</span>{% else %}<span style="color:#6b7280;">No</span>{% endif %}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" style="text-align:center;padding:20px;color:#888;">No transactions yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions-wrapper">
+            <a href="{% url 'admin_user_management' %}" class="action-btn"><i class="fa-solid fa-users"></i> Manage Users</a>
+            <a href="{% url 'admin_transaction_monitoring' %}" class="action-btn"><i class="fa-solid fa-chart-line"></i> Monitor Transactions</a>
+            <a href="javascript:void(0)" onclick="adminDownloadPDF('{% url 'admin_pdf_all' %}')" class="action-btn"><i class="fa-solid fa-file-pdf"></i> Download Full Report</a>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">
+    <p>© 2026 BankSphere. All Rights Reserved.</p>
+</footer>
+
+<script>
+const userToggle = document.getElementById('userToggle');
+const userMenu   = document.getElementById('userMenu');
+userToggle.addEventListener('click', function(e) { e.stopPropagation(); userMenu.classList.toggle('open'); });
+document.addEventListener('click', function() { userMenu.classList.remove('open'); });
+userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+</script>
+
+<script>
+function adminDownloadPDF(url) {
+    var now = new Date();
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var h = now.getHours(); var ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    var pad = n => n < 10 ? "0"+n : n;
+    var ts = pad(now.getDate())+"-"+months[now.getMonth()]+"-"+now.getFullYear()+" "+pad(h)+":"+pad(now.getMinutes())+" "+ampm;
+    window.location.href = url + "?ts=" + encodeURIComponent(ts);
+}
+</script>
+</body>
+</html>
